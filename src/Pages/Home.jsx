@@ -6,18 +6,41 @@ import {
   Drawer,
   IconButton,
   Stack,
-  TextField,
   Typography,
+  styled,
 } from "@mui/material";
 import React, { useState } from "react";
 import Navbar from "../Components/Navbar/Navbar";
 import { FilledInput } from "@mui/material";
+import MuiTextField from "@mui/material/TextField";
 const Home = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
+
+  const options = {
+    shouldForwardProp: (prop) => prop !== "borderColor",
+  };
+  const outlinedSelectors = [
+    "& .MuiOutlinedInput-notchedOutline",
+    "&:hover .MuiOutlinedInput-notchedOutline",
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline",
+  ];
+  const TextField = styled(
+    MuiTextField,
+    options
+  )(({ borderColor }) => ({
+    "& label.Mui-focused": {
+      color: borderColor,
+    },
+    [outlinedSelectors.join(",")]: {
+      borderWidth: 3,
+      borderColor,
+    },
+  }));
+
   return (
     <Box
       sx={{
@@ -33,7 +56,6 @@ const Home = () => {
       <Stack
         sx={{
           position: "absolute",
-          background: "rgb(0, 0, 0)",
           background: "#133457DE",
           color: "#f1f1f1",
           width: "100%",
@@ -260,7 +282,7 @@ const Home = () => {
           onClose={toggleMobileMenu}
           sx={{
             "& .MuiDrawer-paper": {
-              width: "600px",
+              width: { lg: "600px", xs: "100%" },
               background: "#0F1D45",
               color: "#fff",
             },
@@ -279,7 +301,7 @@ const Home = () => {
                 display: "flex",
                 justifyContent: "flex-end",
                 alignItems: "end",
-                ml: "50px",
+                ml: { lg: "50px", xs: "0" },
                 mr: "20px",
               }}
             >
@@ -292,7 +314,7 @@ const Home = () => {
               alignItems="start"
               justifyContent="space-between"
               spacing={2}
-              ml="100px"
+              ml={{ lg: "100px", xs: "65px" }}
               mt="20px"
               height="80%"
             >
@@ -301,25 +323,35 @@ const Home = () => {
               </Typography>
               <Stack width="80%" spacing={6} sx={{ mt: "100px" }}>
                 <TextField
+                  borderColor="#fff"
                   fullWidth
+                  InputLabelProps={{
+                    style: { color: "#fff" },
+                  }}
+                  inputProps={{ style: { color: "#fff" } }}
                   id="standard-basic"
                   label="ИМЯ"
                   type="text"
-                  variant="standard"
-                  color="success"
                 />
                 <TextField
                   fullWidth
-                  color="success"
+                  borderColor="#fff"
+                  InputLabelProps={{
+                    style: { color: "#fff" },
+                  }}
+                  inputProps={{ style: { color: "#fff" } }}
                   id="standard-basic"
                   label="ТЕЛЕФОН"
                   type="number"
-                  variant="standard"
                 />
               </Stack>
               <Stack direction="row" mt="30px">
                 <Checkbox sx={{ color: "#fff" }} />
-                <Typography fontSize={18} width="400px" color="#fff">
+                <Typography
+                  fontSize={18}
+                  width={{ lg: "400px", xs: "250px" }}
+                  color="#fff"
+                >
                   Согласен на сохранение и обработку персональных данных
                 </Typography>
               </Stack>
@@ -332,7 +364,7 @@ const Home = () => {
                     borderRadius: "0",
                     textTransform: "none",
 
-                    width: 380,
+                    width: { lg: 380, xs: 280 },
                     display: "flex",
                     justifyContent: "space-between",
                     p: "20px",

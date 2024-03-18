@@ -12,3 +12,6 @@
 .active{
   border-bottom: 1px solid #fff;
 }
+.input-border {
+  border-color: #3E68A8 !important;
+}

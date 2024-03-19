@@ -22,6 +22,7 @@ const Home = () => {
   let month = new Date().toLocaleDateString("en-us", { month: "2-digit" });
   let year = new Date().toLocaleDateString("en-us", { year: "numeric" });
   const dT = Number(date) + Number(month) + Number(year);
+  const FormattedDate = `${date}/${month}/${year}`;
 
   useEffect(() => {
     const getData = async () => {
@@ -237,7 +238,7 @@ const Home = () => {
                   fontFamily="Montserrat"
                   fontSize={{ lg: 40, xs: 20 }}
                 >
-                  {dT}
+                  {dT}+
                 </Typography>
                 <Typography
                   mt={{ lg: "20px", xs: "5px" }}
@@ -259,6 +260,11 @@ const Home = () => {
                   fontWeight="600"
                   fontFamily="Montserrat"
                   fontSize={{ lg: 40, xs: 20 }}
+                  sx={{
+                    ...(data.Value > data.Previous
+                      ? { color: "green" }
+                      : { color: "red" }),
+                  }}
                 >
                   {(data.Value * 100) / data.Previous - 100}%
                 </Typography>

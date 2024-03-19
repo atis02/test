@@ -9,13 +9,31 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar/Navbar";
 import { FilledInput } from "@mui/material";
 import MuiTextField from "@mui/material/TextField";
+import axios from "axios";
 const Home = () => {
+  const [data, setData] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  let date = new Date().toLocaleDateString("en-us", { day: "numeric" });
+  let month = new Date().toLocaleDateString("en-us", { month: "2-digit" });
+  let year = new Date().toLocaleDateString("en-us", { year: "numeric" });
+  const dT = Number(date) + Number(month) + Number(year);
+
+  useEffect(() => {
+    const getData = async () => {
+      const response = await axios
+        .get("https://www.cbr-xml-daily.ru/daily_json.js")
+        .then((res) => {
+          setData(res.data.Valute.GBP);
+          console.log(res.data.Valute.GBP);
+        });
+    };
+    getData();
+  }, []);
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
@@ -219,7 +237,7 @@ const Home = () => {
                   fontFamily="Montserrat"
                   fontSize={{ lg: 40, xs: 20 }}
                 >
-                  130+
+                  {dT}
                 </Typography>
                 <Typography
                   mt={{ lg: "20px", xs: "5px" }}
@@ -242,7 +260,7 @@ const Home = () => {
                   fontFamily="Montserrat"
                   fontSize={{ lg: 40, xs: 20 }}
                 >
-                  250%
+                  {(data.Value * 100) / data.Previous - 100}%
                 </Typography>
                 <Typography
                   mt={{ lg: "20px", xs: "5px" }}
